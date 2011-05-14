@@ -1,6 +1,8 @@
 Geras::Application.routes.draw do
   
   
+  resources :companies do as_routes end
+
   devise_for :users
   
   resources :roles do as_routes end
