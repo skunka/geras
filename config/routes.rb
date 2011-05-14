@@ -1,4 +1,20 @@
 Geras::Application.routes.draw do
+  
+  
+  devise_for :users
+  
+  resources :roles do as_routes end
+
+  get "pages/index"
+
+  get "pages/about"
+
+  get "pages/contact"
+
+  match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
+
+  
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -48,7 +64,7 @@ Geras::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => "welcome#index"
+  root :to => "pages#index"
 
   # See how all your routes lay out with "rake routes"
 
