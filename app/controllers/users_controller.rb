@@ -5,10 +5,10 @@ class UsersController < ApplicationController
   
   active_scaffold :user do |config|
     config.label = "Vartotojai"
+	config.actions.exclude :create
 	config.columns.exclude :events 
 	config.columns[:roles].form_ui = :select
 	config.columns[:companies].form_ui = :select
-	config.subform.columns = [:first_name, :last_name, :login, :password]
   end
 
   def conditions_for_collection
