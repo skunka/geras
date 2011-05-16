@@ -1,7 +1,7 @@
 <h1>Sveiki!</h1>
 
 <% unless user_signed_in? -%>
-  <p><%= link_to 'Prisiregistruokite kaip vartotojas', new_user_registration_path, :class => "signup_button round" %></p>
+  <p><%= link_to 'Registracija', new_user_registration_path, :class => "signup_button round" %></p>
   <p><%= link_to 'Prisijunkite', new_user_session_path, :class => "signup_button round" %></p>
 <% end -%>
 

@@ -4,6 +4,6 @@ class CompaniesController < ApplicationController
   load_and_authorize_resource :only => [:show,:new,:destroy,:edit,:update]
   active_scaffold :company do |conf|
     #list.columns.exclude :users
-    
+    config.columns[:users].options = {:draggable_lists => true}
   end
 end 
