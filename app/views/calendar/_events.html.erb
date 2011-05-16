@@ -1,15 +1,11 @@
 <events>
   <table>
     <% @events.each do |event| %>
-
       <tr>
         <td><%= event.start_at %> &nbsp; <%=  event.end_at %></td>
         <td><%= event.name %></td>
         <td><%= event.description %></td>
-
       </tr>
-
-
     <% end %>
   </table>
 </events>

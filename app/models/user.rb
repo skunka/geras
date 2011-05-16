@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
     return !!self.roles.find_by_name(role.to_s.camelize)
   end
   
-    def name
+  def name
     last_name.nil? ? first_name : first_name + " " + last_name
   end
   
