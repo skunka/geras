@@ -9,15 +9,11 @@ Geras::Application.routes.draw do
   resources :events do as_routes end
     
   get "pages/index"
-
   get "pages/about"
-
   get "pages/contact"
-  
+ 
   get "monitors/application"
-
   get "monitors/database"
-
   get "monitors/web"
 
   match '/monitors',    :to => 'monitors#application'
@@ -26,8 +22,9 @@ Geras::Application.routes.draw do
 
   match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
   match '/calendar(/:year(/:month(/:day)))' => 'calendar#day', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/,:day => /\d{1,2}/}
-  match '/calendar/acounting' => 'calendar#acounting', :as => :calendar
-
+  match '/calendar/acounting', :to => 'calendar#acounting'
+  match '/calendar', :to => 'calendar#index'
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
