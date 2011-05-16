@@ -21,17 +21,16 @@ class EventSeries < ActiveRecord::Base
   
   has_many :events, :dependent => :destroy
   
-  def after_create
-    create_events_until(END_TIME)
-  end
+  after_create :create_events_until
   
-  def create_events_until(end_time)
+  
+  def create_events_until
     st = starttime
     et = endtime
     p = r_period(period)
     nst, net = st, et
     
-    while frequency.send(p).from_now(st) <= end_time
+    while frequency.send(p).from_now(st) <= endtime
 #      puts "#{nst}           :::::::::          #{net}" if nst and net
       self.events.create(:title => title, :description => description, :all_day => all_day, :starttime => nst, :endtime => net)
       nst = st = frequency.send(p).from_now(st)

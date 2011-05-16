@@ -1,6 +1,8 @@
 class EventsController < ApplicationController
   
-   active_scaffold :event
+   active_scaffold :event do |config|
+	config.columns[:starttime].form_ui = :datepicker 
+   end
   
   def create
     if params[:event][:period] == "Does not repeat"
