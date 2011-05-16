@@ -4,22 +4,21 @@ class UsersController < ApplicationController
   load_and_authorize_resource :only => [:show,:new,:destroy,:edit,:update]
   
   active_scaffold :user do |config|
-    config.label = "Vartotojai"
-	config.actions.exclude :create
-	config.columns.exclude :events 
-	config.columns[:roles].form_ui = :select
-	config.columns[:companies].form_ui = :select
+	
+	config.label = 'Vartotojai' 
+	config.columns.exclude :events
+    config.columns[:roles].form_ui = :select
+	
   end
 
   def conditions_for_collection
     if current_user.admin?
       "1=1"
     elsif current_user.role? :admin
-	  users =  User.find(:all, :include => :companies, :conditions => { "users.admin" => false})
-      ["users.id in (?) or users.id = ?", users, current_user]
+      "1=1"
     elsif current_user.role? :company
-      users =  User.find(:all, :include => :companies, :conditions => { "companies_users.company_id" => current_user.companies, "users.admin" => false})
-	  ["users.id in (?) or users.id = ?", users, current_user]
+      users = User.find_all_by_company_id current_user.company_id
+      ["users.id in (?)", users]
     else
       ["users.id=?", current_user]
     end

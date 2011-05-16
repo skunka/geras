@@ -5,7 +5,9 @@ Geras::Application.routes.draw do
   resources :users do as_routes end
   resources :roles do as_routes end
   resources :companies do as_routes end
-  resources :users do as_routes end
+  resources :users do 
+	as_routes
+  end
   resources :events do as_routes end
     
   get "pages/index"

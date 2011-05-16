@@ -11,10 +11,10 @@ class CalendarController < ApplicationController
     if current_user.admin?
       @users = User.find(:all)
     elsif current_user.role? :admin
-      @users = User.find(:all, :include => :companies, :conditions => { "companies_users.company_id" => current_user.companies})
+      @users = User.find_all_by_company_id current_user.company.id
 
     elsif current_user.role? :company
-      @users = User.find(:all, :include => :companies, :conditions => { "companies_users.company_id" => current_user.companies})
+      @users = User.find_all_by_company_id current_user.company.id
     else
       @users = current_user
     end
@@ -58,13 +58,13 @@ class CalendarController < ApplicationController
       @companies = Company.find(:all)
     elsif current_user.role? :admin
       @users = User.find(:all, :include => :companies, :conditions => { "companies_users.company_id" => current_user.companies})
-      @companies = current_user.companies
+      @companies = User.companies
     elsif current_user.role? :company
       @users = User.find(:all, :include => :companies, :conditions => { "companies_users.company_id" => current_user.companies})
-      @companies = current_user.companies
+      @companies = User.companies
     else
       @users = [current_user]
-      @companies = current_user.companies
+      @companies = current_user.companies? ? [  current_user.companies ] : []
     end
 
     cond = [" 1=1"]
@@ -76,7 +76,7 @@ class CalendarController < ApplicationController
     end
     if params[:Kompanijos]
       cond[0] << " AND user_id in (?)"
-      cond << User.find(:all, :include => :companies, :conditions => { "companies_users.company_id" => params[:Kompanijos]})
+      cond << User.find(:all, :conditions => {:company_id => params[:Kompanijos]})
     end
     if params[:start_d]
       if params[:end_d]
