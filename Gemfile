@@ -15,6 +15,8 @@ gem 'cancan'
 gem 'active_scaffold_vho'
 # Calendar event helper
 gem 'event-calendar', :require => 'event_calendar'
+# monitoring 
+gem 'newrelic_rpm'
 
 # Use unicorn as the web server
 # gem 'unicorn'

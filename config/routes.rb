@@ -1,12 +1,11 @@
 Geras::Application.routes.draw do
-  
-  
-  resources :companies do as_routes end
 
   devise_for :users
-  
-  resources :roles do as_routes end
 
+  resources :roles do as_routes end
+  resources :companies do as_routes end
+  resources :users do as_routes end
+    
   get "pages/index"
 
   get "pages/about"
@@ -14,8 +13,6 @@ Geras::Application.routes.draw do
   get "pages/contact"
 
   match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-
-  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -68,9 +65,9 @@ Geras::Application.routes.draw do
   # just remember to delete public/index.html.
   root :to => "pages#index"
 
-  # See how all your routes lay out with "rake routes"
+# See how all your routes lay out with "rake routes"
 
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id(.:format)))'
+# This is a legacy wild controller route that's not recommended for RESTful applications.
+# Note: This route will make all actions in every controller accessible via GET requests.
+# match ':controller(/:action(/:id(.:format)))'
 end
