@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   
   has_and_belongs_to_many :companies
   has_and_belongs_to_many :roles
-  has_and_belongs_to_many :events
+  has_many :events
 
   def role?(role)
     return !!self.roles.find_by_name(role.to_s.camelize)

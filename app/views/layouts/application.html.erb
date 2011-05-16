@@ -13,6 +13,7 @@
 	</head>
 	<body>
 		<div class="container">
+		    <%= image_tag("laps1.jpg", :alt => "LASP", :class => "round") %>
 			<%= render 'layouts/header' %>
 			<section class="round">
 				<% flash.each do |key, message| %>
@@ -20,7 +21,7 @@
 				<% end %>
 				<%= yield %>
 			</section>
-			<%= render 'layouts/header' %>
+			<%= render 'layouts/footer' %>
 		</div>
 	</body>
 </html>

@@ -2,7 +2,6 @@ Geras::Application.routes.draw do
 
   devise_for :users
 
-
   resources :users do as_routes end
   resources :roles do as_routes end
   resources :companies do as_routes end
@@ -14,10 +13,15 @@ Geras::Application.routes.draw do
   get "pages/about"
 
   get "pages/contact"
+  
+  get "monitors/application"
+
+  get "monitors/database"
+
+  get "monitors/web"
+
 
   match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-  
-
   match '/calendar(/:year(/:month(/:day)))' => 'calendar#day', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/,:day => /\d{1,2}/}
   match '/calendar/acounting' => 'calendar#acounting', :as => :calendar
 

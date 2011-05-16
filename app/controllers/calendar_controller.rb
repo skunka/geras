@@ -64,7 +64,7 @@ class CalendarController < ApplicationController
       @companies = current_user.companies
     else
       @users = [current_user]
-      @companies = current_user.companies? ? [  current_user.companies ] : []
+      @companies = current_user.companies
     end
 
     cond = [" 1=1"]
@@ -76,7 +76,7 @@ class CalendarController < ApplicationController
     end
     if params[:Kompanijos]
       cond[0] << " AND user_id in (?)"
-      cond << User.find(:all, :conditions => {:company_id => params[:Kompanijos]})
+      cond << User.find(:all, :include => :companies, :conditions => { "companies_users.company_id" => params[:Kompanijos]})
     end
     if params[:start_d]
       if params[:end_d]
