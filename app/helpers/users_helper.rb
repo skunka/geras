@@ -1,8 +1,10 @@
 module UsersHelper
 
+
+  
   def options_for_association_conditions(association)
-    if association.name == :role_id
-      ['roles.id != ?', Role.find_by_id(:role_id).name]
+    if association.name == :role
+      ['roles.id != ?', Role.find_by_name('admin').id] unless current_user.admin?
     else
       super
     end
