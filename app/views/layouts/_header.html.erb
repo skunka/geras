@@ -15,6 +15,9 @@
         <li>
           <%= link_to_if(can?(:read, Role),'Roles', roles_path)  %>
         </li>
+		<li>
+          <%= link_to_if(current_user.admin?,'Statistika', monitors_path)  %>
+        </li>
       <% else %>
 				<li>
 					<%= link_to('Pradinis', root_path) %>

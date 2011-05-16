@@ -20,6 +20,7 @@ Geras::Application.routes.draw do
 
   get "monitors/web"
 
+  match '/monitors',    :to => 'monitors#application'
 
   match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
   match '/calendar(/:year(/:month(/:day)))' => 'calendar#day', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/,:day => /\d{1,2}/}
