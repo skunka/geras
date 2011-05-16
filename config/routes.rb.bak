@@ -2,12 +2,9 @@ Geras::Application.routes.draw do
 
   devise_for :users
 
-
-  resources :users do as_routes end
   resources :roles do as_routes end
   resources :companies do as_routes end
   resources :users do as_routes end
-  resources :events do as_routes end
     
   get "pages/index"
 
@@ -18,8 +15,6 @@ Geras::Application.routes.draw do
   match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
   
 
-  match '/calendar(/:year(/:month(/:day)))' => 'calendar#day', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/,:day => /\d{1,2}/}
-  match '/calendar/acounting' => 'calendar#acounting', :as => :calendar
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -15,6 +15,8 @@ gem 'cancan'
 gem 'active_scaffold_vho'
 # Calendar event helper
 gem 'event-calendar', :require => 'event_calendar'
+#date select
+gem 'calendar_date_select', :git => 'http://github.com/paneq/calendar_date_select.git', :branch => 'rails3test'
 
 # Use unicorn as the web server
 # gem 'unicorn'
