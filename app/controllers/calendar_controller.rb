@@ -11,10 +11,10 @@ class CalendarController < ApplicationController
     if current_user.admin?
       @users = User.find(:all)
     elsif current_user.role? :admin
-      @users = User.find_all_by_company_id current_user.company.id
+      @users = User.find(:all, :include => :companies, :conditions => { "companies_users.company_id" => current_user.companies})
 
     elsif current_user.role? :company
-      @users = User.find_all_by_company_id current_user.company.id
+      @users = User.find(:all, :include => :companies, :conditions => { "companies_users.company_id" => current_user.companies})
     else
       @users = current_user
     end
