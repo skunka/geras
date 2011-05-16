@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   load_and_authorize_resource :only => [:show,:new,:destroy,:edit,:update]
   
   active_scaffold :user do |config|
-
+	config.list.columns.exclude :events 
   end
 
   def conditions_for_collection
@@ -14,7 +14,7 @@ class UsersController < ApplicationController
       "1=1"
     elsif current_user.role? :company
       users =  User.find(:all, :include => :companies, :conditions => { "companies_users.company_id" => current_user.companies})
-
+	  ["users.id in (?) or users.id = ?", users, current_user]
     else
       ["users.id=?", current_user]
     end
