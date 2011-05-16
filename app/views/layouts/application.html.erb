@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><%= h(yield(:title) || "LAPS") %></title>
-		<%= stylesheet_link_tag 'event_calendar' %>
+		<title><%= yield(:title) || "LAPS" %></title>
+		<%= stylesheet_link_tag 'event_calendar', 'fullcalendar' %>
 		<%= stylesheet_link_tag 'blueprint/screen', :media => 'screen' %>
 		<%= stylesheet_link_tag 'blueprint/print',  :media => 'print' %>
 		<!--[if lt IE 8]><%= stylesheet_link_tag 'blueprint/ie' %><![endif]-->
 		<%= stylesheet_link_tag 'custom', :media => 'screen' %>
 		<%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js' %>
-		<%= javascript_include_tag 'rails_jquery.js' %>
+		<%= javascript_include_tag 'rails_jquery','fullcalendar', 'gcal', 'jrails' %>
 		<%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.js' %>
 		<%= active_scaffold_includes %>
 		<%= csrf_meta_tag %>

@@ -1,31 +1,91 @@
 class EventsController < ApplicationController
-  before_filter :get_user, :only => [:index,:new,:edit]
-  before_filter :accessible_roles, :only => [:index, :new, :edit, :show, :update, :create]
-  load_and_authorize_resource :only => [:show,:new,:destroy,:edit,:update]
-
-  active_scaffold :event do |config|
-    config.columns = [:id, :name, :description, :start_at, :end_at, :user]
-
-#    config.columns[:phone_number].label = "Phone"
-
-    config.create.columns.exclude :id
-    config.update.columns.exclude :id
-    config.columns[:user].form_ui = :select
-
-  end
-
-  def conditions_for_collection
-    if current_user.admin?
-      " 1=1"
-    elsif current_user.role? :admin
-      users = User.find_all_by_company_id current_user.company.id
-      [" events.user_id in (?)", users]
-    elsif current_user.role? :company
-      users = User.find_all_by_company_id current_user.company.id
-      [" events.user_id in (?)", users]
+  
+   active_scaffold :event
+  
+  def create
+    if params[:event][:period] == "Does not repeat"
+      @event = Event.new(params[:event])
     else
-      [" events.user_id=?", current_user]
+      #      @event_series = EventSeries.new(:frequency => params[:event][:frequency], :period => params[:event][:repeats], :starttime => params[:event][:starttime], :endtime => params[:event][:endtime], :all_day => params[:event][:all_day])
+      @event_series = EventSeries.new(params[:event])
     end
+  end
+  
+  def index
+    
+  end
+  
+  
+  def get_events
+    @events = Event.find(:all, :conditions => ["starttime >= '#{Time.at(params['start'].to_i).to_formatted_s(:db)}' and endtime <= '#{Time.at(params['end'].to_i).to_formatted_s(:db)}'"] )
+    events = [] 
+    @events.each do |event|
+      events << {:id => event.id, :title => event.title, :description => event.description || "Some cool description here...", :start => "#{event.starttime.iso8601}", :end => "#{event.endtime.iso8601}", :allDay => event.all_day, :recurring => (event.event_series_id)? true: false}
+    end
+    render :text => events.to_json
+  end
+  
+  
+  
+  def move
+    @event = Event.find_by_id params[:id]
+    if @event
+      @event.starttime = (params[:minute_delta].to_i).minutes.from_now((params[:day_delta].to_i).days.from_now(@event.starttime))
+      @event.endtime = (params[:minute_delta].to_i).minutes.from_now((params[:day_delta].to_i).days.from_now(@event.endtime))
+      @event.all_day = params[:all_day]
+      @event.save
+    end
+  end
+  
+  
+  def resize
+    @event = Event.find_by_id params[:id]
+    if @event
+      @event.endtime = (params[:minute_delta].to_i).minutes.from_now((params[:day_delta].to_i).days.from_now(@event.endtime))
+      @event.save
+    end    
+  end
+  
+  def edit
+    @event = Event.find_by_id(params[:id])
+  end
+  
+  def update
+    @event = Event.find_by_id(params[:event][:id])
+    if params[:event][:commit_button] == "Update All Occurrence"
+      @events = @event.event_series.events #.find(:all, :conditions => ["starttime > '#{@event.starttime.to_formatted_s(:db)}' "])
+      @event.update_events(@events, params[:event])
+    elsif params[:event][:commit_button] == "Update All Following Occurrence"
+      @events = @event.event_series.events.find(:all, :conditions => ["starttime > '#{@event.starttime.to_formatted_s(:db)}' "])
+      @event.update_events(@events, params[:event])
+    else
+      @event.attributes = params[:event]
+      @event.save
+    end
+
+    render :update do |page|
+      page<<"$('#calendar').fullCalendar( 'refetchEvents' )"
+      page<<"$('#desc_dialog').dialog('destroy')" 
+    end
+    
+  end  
+  
+  def destroy
+    @event = Event.find_by_id(params[:id])
+    if params[:delete_all] == 'true'
+      @event.event_series.destroy
+    elsif params[:delete_all] == 'future'
+      @events = @event.event_series.events.find(:all, :conditions => ["starttime > '#{@event.starttime.to_formatted_s(:db)}' "])
+      @event.event_series.events.delete(@events)
+    else
+      @event.destroy
+    end
+    
+    render :update do |page|
+      page<<"$('#calendar').fullCalendar( 'refetchEvents' )"
+      page<<"$('#desc_dialog').dialog('destroy')" 
+    end
+    
   end
   
 end

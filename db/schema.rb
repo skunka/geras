@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110516111334) do
+ActiveRecord::Schema.define(:version => 20110516125637) do
 
   create_table "companies", :force => true do |t|
     t.string   "name"
@@ -41,6 +41,10 @@ ActiveRecord::Schema.define(:version => 20110516111334) do
     t.datetime "updated_at"
     t.text     "description"
     t.integer  "user_id"
+    t.integer  "company_id"
+    t.datetime "starttime"
+    t.datetime "endtime"
+    t.boolean  "all_day",     :default => false
   end
 
   add_index "events", ["user_id"], :name => "index_events_on_user_id"

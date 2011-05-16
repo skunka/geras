@@ -9,6 +9,7 @@ Geras::Application.routes.draw do
 	as_routes
   end
   resources :events do as_routes end
+  resources :event_series do as_routes end
     
   get "pages/index"
   get "pages/about"
@@ -82,5 +83,5 @@ Geras::Application.routes.draw do
 
 # This is a legacy wild controller route that's not recommended for RESTful applications.
 # Note: This route will make all actions in every controller accessible via GET requests.
-# match ':controller(/:action(/:id(.:format)))'
+ match ':controller(/:action(/:id(.:format)))'
 end
