@@ -1,4 +1,6 @@
-<%= javascript_include_tag 'application' %>
+<%= javascript_include_tag 'calendar.js' %>
+<%= javascript_include_tag 'fullcalendar.js' %>
+<%= javascript_include_tag 'gcal.js' %>
 
 <script>
   $(document).ready(function(){
@@ -53,6 +55,7 @@
 
 <%= render :partial => 'filter' %>
 
+<br>
 <div>
   <div id='calendar'>
   </div>

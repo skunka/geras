@@ -1,19 +1,10 @@
 class EventsController < ApplicationController
   
+	active_scaffold :event do |config|
+		config.columns.exclude :event_series
+	end
+  
 
-  
-  def create
-    if params[:event][:period] == "Does not repeat"
-      @event = Event.new(params[:event])
-    else
-      #      @event_series = EventSeries.new(:frequency => params[:event][:frequency], :period => params[:event][:repeats], :starttime => params[:event][:starttime], :endtime => params[:event][:endtime], :all_day => params[:event][:all_day])
-      @event_series = EventSeries.new(params[:event])
-    end
-  end
-  
-  def index
-    
-  end
   
   
   def get_events

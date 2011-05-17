@@ -2,14 +2,14 @@
 
 <h1>Kalendorius</h1>
 <div style="float:left;"> 
-  <%= link_to_if(can?(:manage, Event), 'Sukurti įvykius', events_path) %>
+  <%= link_to_if(can?(:manage, Event), 'Sukurti įvykius', new_event_path) %>
 </div>
 
 
 <div style="float:right;"><%= 'Pasirinkite datą' %>
  
 
-<input type="text" value="" id="filterdate" name="filterdate" class="hasDatepicker">
+<input type="text" id="filterdate" class="hasDatepicker">
   <%= button_to_function 'Žiūrėti',  "location.href='#{url_for(:action => 'index')}/'+$('year_value').value+'/'+$('month_value').value+'/'+$('day_value').value"  %>
 </div>
 <br />
@@ -19,5 +19,5 @@
 </div>
 
 <script>
-$('#filterdate').datetimepicker();
+$('#filterdate').datepicker();
 </script>
