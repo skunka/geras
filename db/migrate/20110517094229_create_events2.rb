@@ -1,0 +1,16 @@
+class CreateEvents2 < ActiveRecord::Migration
+  def self.up
+    drop_table :events
+    create_table :events do |t|
+      t.string :title
+	  t.text   :description
+      t.datetime :starttime, :endtime
+      t.boolean :all_day, :default => false
+      t.timestamps
+    end
+  end
+
+  def self.down
+    drop_table :events
+  end
+end
