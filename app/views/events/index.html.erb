@@ -1,12 +1,6 @@
-<p>
-  <%=link_to 'Create Event', :new_event %>
-</p>
-
-<%= datetime_select("post", "written_on", :start_year => 1995) %>
+<%= javascript_include_tag 'application' %>
 
 <script>
-  
-  
   $(document).ready(function(){
       // page is now ready, initialize the calendar...
       $('#calendar').fullCalendar({
@@ -56,6 +50,9 @@
       });
   });
 </script>
+
+<%= render :partial => 'filter' %>
+
 <div>
   <div id='calendar'>
   </div>

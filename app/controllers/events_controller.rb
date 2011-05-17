@@ -1,8 +1,6 @@
 class EventsController < ApplicationController
   
-   active_scaffold :event do |config|
-	config.columns[:starttime].form_ui = :datepicker 
-   end
+
   
   def create
     if params[:event][:period] == "Does not repeat"
@@ -88,6 +86,54 @@ class EventsController < ApplicationController
       page<<"$('#desc_dialog').dialog('destroy')" 
     end
     
+  end
+  
+    def acounting
+    @format = ("iso_date").to_sym
+
+
+    start_d, end_d = params[:start_d] || Time.now, params[:end_d] || Time.now
+
+    if current_user.admin?
+      @users = User.find(:all)
+      @companies = Company.find(:all)
+    elsif current_user.role? :admin
+      @users = User.find_all_by_company_id current_user.company.id
+      @companies = Company.find(:first, :conditions => {:company_id => current_user.company.id})
+    elsif current_user.role? :company
+      @users = User.find_all_by_company_id current_user.company.id
+      @companies = Company.find(:first, :conditions => {:company_id => current_user.company.id})
+    else
+      @users = [current_user]
+      @companies = current_user.company_id? ? [  current_user.company_id ] : []
+    end
+
+    cond = [" 1=1"]
+
+    if params[:Vartotojai]
+      
+      cond[0] << " AND user_id in (?)"
+      cond << params[:Vartotojai]
+    end
+    if params[:Kompanijos]
+      cond[0] << " AND user_id in (?)"
+      cond << User.find(:all, :conditions => {:company_id => params[:Kompanijos]})
+    end
+    if params[:start_d]
+      if params[:end_d]
+        cond[0] << " and ( DATE(events.end_at) >= ? and DATE(events.start_at) <= ? )"
+        cond << params[:start_d] << params[:end_d]
+      else
+        cond[0] << " and (? between DATE(events.start_at) and DATE(events.end_at)) or (? between DATE(events.start_at) and DATE(events.end_at))"
+        cond << params[:start_d] << params[:start_d]
+      end
+
+    end
+
+
+    
+    @events = Event.find(:all, :conditions => cond)
+
   end
   
 end

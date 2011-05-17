@@ -1,0 +1,44 @@
+﻿<h5>Ataskaitos</h5>
+
+<%= form_tag :action => :acounting do %>
+  <table>
+    <tr>
+      <td style="width:33%">
+        Vartotojai
+      </td>
+      <td>
+        Kompanijos
+      </td>
+      <td>
+        Data
+      </td>
+
+    </tr>
+    <tr>
+      <td>
+        <%=  select_tag "Vartotojai", options_from_collection_for_select(@users, "id", "name"), {:multiple=>true, :style=>"width:200px"}  %>
+      </td>
+      <td>
+        <%=  select_tag "Kompanijos", options_from_collection_for_select(@companies, "id", "name"), {:multiple=>true, :style=>"width:200px"}  %>
+      </td>
+      <td>
+        
+        <%= 'Nuo' %>
+		<input type="text" value="" id="filterdateNuo" name="filterdateNuo" class="hasDatepicker">
+        <br />
+        <%= 'Iki' %>
+		<input type="text" value="" id="filterdateIki" name="filterdateIki" class="hasDatepicker">
+      </td>
+    </tr>
+
+  </table>
+
+  <div style="width: 100%; vertical-align: middle; text-align: center;"><%= submit_tag 'Generuoti' %></div>
+
+<% end %>
+
+<%= render :partial => 'acount_list' %>
+<script>
+$('#filterdateNuo').datetimepicker();
+$('#filterdateIki').datetimepicker();
+</script>
