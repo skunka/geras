@@ -4,7 +4,10 @@ class EventsController < ApplicationController
 		config.columns.exclude :event_series
 	end
   
-
+  
+  def index
+    
+  end
   
   
   def get_events
